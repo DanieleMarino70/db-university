@@ -1,0 +1,73 @@
+
+1)
+SELECT `students`.*, `degrees`.`name`
+FROM `students`
+INNER JOIN `degrees` ON `students`.`degree_id` = `degrees`.`id`
+WHERE `degrees`.`name` = "Corso di Laurea in Economia";
+
+2)
+SELECT  `courses`.*, `degrees`.`name`
+FROM `courses`
+INNER JOIN `degrees` ON `courses`.`degree_id` = `degrees`.`id`
+INNER JOIN `departments` ON `degrees`.`department_id` = `departments`.`id`
+WHERE `departments`.`name` = "Dipartimento di Neuroscienze"
+AND `degrees`.`level` = "magistrale";
+
+
+3)
+SELECT   `teachers`. `name`, `teachers`. `surname`,`courses`.`name` AS corsi_dove_insegna 
+FROM `course_teacher`
+INNER JOIN `teachers` ON `course_teacher`.`teacher_id` = `teachers`.`id`
+INNER JOIN `courses` ON `course_teacher`.`course_id` = `courses`.`id`
+WHERE  `teachers`. `id` = 44;
+
+4)
+SELECT `students`.*, `degrees`.`name`
+FROM `students`
+INNER JOIN `degrees` ON `students`.`degree_id` = `degrees`.`id`
+WHERE 1
+ORDER BY `students`.`name`, `students`.`surname` ASC;
+
+5)
+SELECT   `courses`.name, `teachers`. `name`, `teachers`. `surname`
+FROM `course_teacher`
+INNER JOIN `teachers` ON `course_teacher`.`teacher_id` = `teachers`.`id`
+INNER JOIN `courses` ON `course_teacher`.`course_id` = `courses`.`id`
+WHERE  1;
+
+6)
+SELECT   `teachers`.`id` AS 'id_teacher', `teachers`. `name` AS 'name_teacher', `teachers`. `surname` AS 'surname_teacher'
+FROM `degrees`
+INNER JOIN `courses` ON `degrees`.`id` = `courses`.`degree.id`
+INNER JOIN `course_teacher` ON `courses`.`id` = `course_teacher`.`course_id`
+INNER JOIN `teachers` ON `teachers`.`id` = `course_teacher`.`teacher_id`
+INNER JOIN `departments` ON `departments`.`id` = `degrees`.`department_id`
+WHERE departments`.`name` = "Dipartimento di Matematica";
+
+
+GROUP BY
+1)
+SELECT COUNT(*) AS 'numero_iscritti',
+YEAR(`enrolment_date`) AS 'anno'
+FROM `students`
+WHERE 1
+GROUP BY YEAR(`enrolment_date`);
+
+
+2)
+SELECT COUNT(*) AS 'numero_insegnanti',
+`office_address`
+FROM `teachers`
+GROUP BY `office_address`;
+
+
+3)
+SELECT `exam_id`, ROUND(AVG(`vote`)) AS 'media_voti'
+FROM `exam_student`
+GROUP BY `exam_id`;
+
+4)
+SELECT COUNT(*) AS 'numero_corsi_di_laurea',
+`department_id`
+FROM `degrees`
+GROUP BY `department_id`;
